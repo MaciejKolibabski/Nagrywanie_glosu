@@ -27,25 +27,29 @@ public class AudioON {
     }
 
 
+
+
     public void zacznij() {
         try {
             audio = new AudioFormat(8000.0F, 16, 1, true, false); //parametry
             // sampleRate - częstotliwość próbkowania
             // sampleSizeInBits - rozmiar próbki
             // channels - liczba kanałow
-            // signed
+            // signed - nie wiem
             // bigEndian - wskazuje, czy dane dla pojedynczej próbki są przechowywane w kolejności bajtów big-endian ( falseczyli little-endian)
-            DataLine.Info datainfo = new DataLine.Info(TargetDataLine.class, audio);
-            target = (TargetDataLine) AudioSystem.getLine(datainfo);
+            DataLine.Info datainfo = new DataLine.Info(TargetDataLine.class, audio); //zawiera dodatkowe informacje specyficzne dla linii danych.
+            target = (TargetDataLine) AudioSystem.getLine(datainfo); //konwersja audio
             CaptureThread captureThread = new CaptureThread();
             captureThread.start();
         } catch (NullPointerException e) {
             System.out.println("Wyjątek !!!");
         } catch (IllegalArgumentException | LineUnavailableException e) {
             System.out.println("Wyjątek !!!");
-            System.exit(0);
+            return;
         }
     }
+
+
 
 
     public void zatrzymaj() {
@@ -55,10 +59,10 @@ public class AudioON {
 
     public void odtworz() {
         try {
-            Clip clip = AudioSystem.getClip();
-            File record = new File("nagranie");
-            clip.open(AudioSystem.getAudioInputStream(record));
-            clip.start();
+            Clip clip = AudioSystem.getClip(); //dane audio mogą być ładowane przed odtwarzania, zamiast być transmitowane w czasie rzeczywistym.
+            File record = new File("nagranie"); //plik z nagraniem
+            clip.open(AudioSystem.getAudioInputStream(record)); //załadowanie clipu
+            clip.start(); //start odtwarzania
             Thread.sleep(clip.getMicrosecondLength() / 1000);
         } catch (Exception exc) {
             System.out.println("Wyjątek !!!");

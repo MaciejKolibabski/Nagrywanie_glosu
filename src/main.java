@@ -1,14 +1,9 @@
-import javax.sound.sampled.*;
-import java.io.File;
-
 public class main {
 
-
-     //funkcja która zaczyna działanie poprzez kliknięcie
     public static void wcisnij() {
         try {
             System.in.read();
-        } catch (Exception ignored) { //rzucenie wyjatku
+        } catch (Exception ignored) {
             System.out.println("Wyjątek !!!");
         }
     }
