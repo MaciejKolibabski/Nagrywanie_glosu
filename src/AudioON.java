@@ -7,6 +7,8 @@ public class AudioON {
     private AudioFormat audio; //określenie konkretnego układu danych w strumieniu (bity binarnych danych dzwiekowych)
     private TargetDataLine target; //odczyt danych audio
 
+
+
     class CaptureThread extends Thread {
 
         //funkcja run() inicjuje operacje nagrywania dzwieku
@@ -24,18 +26,10 @@ public class AudioON {
         }
     }
 
-    // funkcja która zaczyna działanie poprzez kliknięcie
-    public void click() {
-        try {
-            System.in.read();
-        } catch (Exception ignored) { //rzucenie wyjatku
-            System.out.println("Wyjątek !!!");
-        }
-    }
 
-    public void captureAudio() {
+    public void zacznij() {
         try {
-            audio = new AudioFormat(8000.0F, 16, 1, true, false);
+            audio = new AudioFormat(8000.0F, 16, 1, true, false); //parametry
             // sampleRate - częstotliwość próbkowania
             // sampleSizeInBits - rozmiar próbki
             // channels - liczba kanałow
@@ -54,12 +48,12 @@ public class AudioON {
     }
 
 
-    public void stopAudio() {
+    public void zatrzymaj() {
         target.stop(); //zakończenie odczytu danych
         target.close(); //zamknięcie
     }
 
-    public void playRecord() {
+    public void odtworz() {
         try {
             Clip clip = AudioSystem.getClip();
             File record = new File("nagranie");
