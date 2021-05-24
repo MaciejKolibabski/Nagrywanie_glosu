@@ -1,22 +1,15 @@
-
-import javax.sound.sampled.*;
-import java.io.File;
-import java.io.IOException;
-
 public class main {
 
     public static void main(String[] args) {
-        recorder record = new recorder();
-        System.out.println("Nacisnij aby rozpoczac nagrywanie");
+        AudioON record = new AudioON();
+        System.out.println("Rozpocznij nagrywanie dźwięku ");
         record.click();
         record.captureAudio();
-
-        System.out.println("Nacisnij aby zakonczyc nagrywanie");
+        System.out.println("Zakończ ");
         record.click();
         record.stopAudio();
         record.click();
-        System.out.println("Nagrywanie zakonczone, nacisnij aby odtworzyc nagrywanie");
-
+        System.out.println("Odsłuchaj nagrania");
         record.playRecord();
     }
 }
