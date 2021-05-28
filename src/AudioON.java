@@ -7,12 +7,7 @@ public class AudioON {
     private AudioFormat audio; //określenie konkretnego układu danych w strumieniu (bity binarnych danych dzwiekowych)
     private TargetDataLine target; //odczyt danych audio
 
-
-
     class CaptureThread extends Thread {
-
-        //funkcja run() inicjuje operacje nagrywania dzwieku
-
         public void run() {
             AudioFileFormat.Type pliczek = AudioFileFormat.Type.WAVE;
             File pliknagrania = new File("nagranie"); //plik z
@@ -26,46 +21,29 @@ public class AudioON {
         }
     }
 
-
-
-
-    public void zacznij() {
-        try {
+    public void zacznij() throws LineUnavailableException {
             audio = new AudioFormat(8000.0F, 16, 1, true, false); //parametry
             // sampleRate - częstotliwość próbkowania
             // sampleSizeInBits - rozmiar próbki
             // channels - liczba kanałow
             // signed - nie wiem
             // bigEndian - wskazuje, czy dane dla pojedynczej próbki są przechowywane w kolejności bajtów big-endian ( falseczyli little-endian)
-            DataLine.Info datainfo = new DataLine.Info(TargetDataLine.class, audio); //zawiera dodatkowe informacje specyficzne dla linii danych.
-            target = (TargetDataLine) AudioSystem.getLine(datainfo); //konwersja audio
-            CaptureThread captureThread = new CaptureThread();
-            captureThread.start();
-        } catch (NullPointerException e) {
-            System.out.println("Wyjątek !!!");
-        } catch (IllegalArgumentException | LineUnavailableException e) {
-            System.out.println("Wyjątek !!!");
-            return;
-        }
+            DataLine.Info info = new DataLine.Info(TargetDataLine.class, audio); //zawiera dodatkowe informacje specyficzne dla linii danych.
+            target = (TargetDataLine) AudioSystem.getLine(info); //konwersja audio
+            CaptureThread ct = new CaptureThread();
+            ct.start();
     }
-
-
-
 
     public void zatrzymaj() {
         target.stop(); //zakończenie odczytu danych
         target.close(); //zamknięcie
     }
 
-    public void odtworz() {
-        try {
+    public void odtworz() throws LineUnavailableException, IOException, UnsupportedAudioFileException, InterruptedException {
             Clip clip = AudioSystem.getClip(); //dane audio mogą być ładowane przed odtwarzania, zamiast być transmitowane w czasie rzeczywistym.
             File record = new File("nagranie"); //plik z nagraniem
             clip.open(AudioSystem.getAudioInputStream(record)); //załadowanie clipu
             clip.start(); //start odtwarzania
             Thread.sleep(clip.getMicrosecondLength() / 1000);
-        } catch (Exception exc) {
-            System.out.println("Wyjątek !!!");
-        }
     }
 }

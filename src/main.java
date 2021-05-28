@@ -1,3 +1,7 @@
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
+
 public class main {
 
     public static void wcisnij() {
@@ -8,8 +12,7 @@ public class main {
         }
     }
 
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws LineUnavailableException, UnsupportedAudioFileException, InterruptedException, IOException {
         AudioON record = new AudioON();
         System.out.println("Kliknij by rozpocząć nagrywanie dźwięku ");
         wcisnij();
@@ -17,8 +20,8 @@ public class main {
         System.out.println("Kliknij by zakończyć nagrywanie ");
         wcisnij();
         record.zatrzymaj();
+        System.out.println("Kliknij by odsłuchaj nagrania");
         wcisnij();
-        System.out.println("Odsłuchaj nagrania");
         record.odtworz();
     }
 }
